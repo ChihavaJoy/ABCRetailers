@@ -1,0 +1,77 @@
+﻿@model ABCRetailers.Models.Product
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    ViewData["Title"] = "Edit Product";
+    var jordanTypes = ViewBag.JordanTypes as List<SelectListItem>;
+}
+
+<h2>Edit Product</h2>
+
+<form asp-action="Edit" method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="RowKey" />
+    <input type="hidden" asp-for="PartitionKey" />
+    <input type="hidden" asp-for="ETag" />
+    <input type="hidden" asp-for="Timestamp" />
+    <input type="hidden" asp-for="ImageUrl" />
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="ProductName"></label>
+        <input asp-for="ProductName" class="form-control" />
+        <span asp-validation-for="ProductName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description"></label>
+        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Price"></label>
+            <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input asp-for="Price" class="form-control" step="0.01" min="0" />
+            </div>
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+        <div class="col-md-6 mb-3">
+            <label asp-for="StockAvailable"></label>
+            <input asp-for="StockAvailable" class="form-control" type="number" min="0" />
+            <span asp-validation-for="StockAvailable" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <label>Jordan Type</label>
+        <select asp-for="PartitionKey" class="form-select" asp-items="jordanTypes">
+            <option value="">-- Select Jordan Type --</option>
+        </select>
+        <span asp-validation-for="PartitionKey" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label>Current Image</label>
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <img src="@Model.ImageUrl" alt="@Model.ProductName" class="img-thumbnail" style="max-width:200px; max-height:200px;" />
+        }
+        else
+        {
+            <div class="bg-light d-flex align-items-center justify-content-center" style="width:200px; height:200px;">
+                <i class="fas fa-image fa-3x text-muted"></i>
+            </div>
+        }
+        <label for="imageFile">Upload New Image (Optional)</label>
+        <input type="file" name="imageFile" id="imageFile" class="form-control" accept="image/*" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update Product</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
