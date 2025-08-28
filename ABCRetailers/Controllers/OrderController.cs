@@ -69,13 +69,13 @@ namespace ABCRetailers.Controllers
                 // Create new order entity with PartitionKey and RowKey
                 var order = new Order
                 {
-                    PartitionKey = "Orders",                   // required for Azure Table
-                    RowKey = Guid.NewGuid().ToString(),       // unique identifier
+                    PartitionKey = "Orders",                   
+                    RowKey = Guid.NewGuid().ToString(),       
                     CustomerId = model.CustomerId,
                     Username = customer.Username,
                     ProductId = model.ProductId,
                     ProductName = product.ProductName,
-                    OrderDate = DateTime.SpecifyKind(model.OrderDate, DateTimeKind.Utc), // ✅ fixed for Azure
+                    OrderDate = DateTime.SpecifyKind(model.OrderDate, DateTimeKind.Utc), 
                     Quantity = model.Quantity,
                     UnitPrice = product.Price,
                     Status = "Pending"
@@ -100,7 +100,7 @@ namespace ABCRetailers.Controllers
                     Status = order.Status
                 };
 
-                // ✅ queue name updated here
+                // queue name updated here
                 await _storageService.SendMessageAsync("notificationqueue", JsonSerializer.Serialize(orderMessage));
 
                 TempData["Success"] = "Order created successfully!";

@@ -11,7 +11,7 @@ namespace ABCRetailers.Controllers
     public class CustomerController : Controller
     {
         private readonly IAzureStorageService _storageService;
-        private const string TableName = "Customers"; // Updated table name
+        private const string TableName = "Customers"; 
 
         public CustomerController(IAzureStorageService storageService)
         {
